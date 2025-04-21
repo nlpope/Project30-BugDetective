@@ -22,7 +22,7 @@ class ImageViewController: UIViewController
 		
 		view.backgroundColor    = UIColor.black
 
-		// create an image view that fills the screen
+		/**create an image view that fills the screen**/
 		imageView               = UIImageView()
 		imageView.contentMode   = .scaleAspectFit
 		imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,15 +30,15 @@ class ImageViewController: UIViewController
 
 		view.addSubview(imageView)
 
-		// make the image view fill the screen
+		/**make the image view fill the screen**/
 		imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 
-		// schedule an animation that does something vaguely interesting
+		/**schedule an animation that does something vaguely interesting**/
 		animTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-			// do something exciting with our image
+			/**do something exciting with our image**/
 			self.imageView.transform = CGAffineTransform.identity
 
 			UIView.animate(withDuration: 3) {
@@ -88,7 +88,7 @@ class ImageViewController: UIViewController
 
 		defaults.set(currentVal, forKey:image)
 
-		// tell the parent view controller that it should refresh its table counters when we go back
+		/**tell the parent view controller that it should refresh its table counters when we go back**/
 		owner.dirty = true
 	}
 }

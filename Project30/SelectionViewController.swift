@@ -10,8 +10,10 @@ import UIKit
 
 class SelectionViewController: UITableViewController
 {
-	var items           = [String]() // this is the array that will store the filenames to load
-	var viewControllers = [UIViewController]() // create a cache of the detail view controllers for faster loading
+    /**this is the array that will store the filenames to load**/
+	var items           = [String]()
+    /**create a cache of the detail view controllers for faster loading**/
+	var viewControllers = [UIViewController]()
 	var dirty           = false
 
     override func viewDidLoad()
@@ -23,7 +25,7 @@ class SelectionViewController: UITableViewController
 		tableView.rowHeight = 90
 		tableView.separatorStyle = .none
 
-		// load all the JPEGs into our array
+		/**load all the JPEGs into our array**/
 		let fm = FileManager.default
 
 		if let tempItems = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
@@ -39,7 +41,7 @@ class SelectionViewController: UITableViewController
 	override func viewWillAppear(_ animated: Bool)
     {
 		super.viewWillAppear(animated)
-        // we've been marked as needing a counter reload, so reload the whole table
+        /**we've been marked as needing a counter reload, so reload the whole table**/
 		if dirty { tableView.reloadData() }
 	}
 
@@ -57,7 +59,7 @@ class SelectionViewController: UITableViewController
     {
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 
-		// find the image for this cell, and load its thumbnail
+		/**find the image for this cell, and load its thumbnail**/
 		let currentImage = items[indexPath.row % items.count]
 		let imageRootName = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
 		let path = Bundle.main.path(forResource: imageRootName, ofType: nil)!
@@ -65,7 +67,7 @@ class SelectionViewController: UITableViewController
 
 		let renderer = UIGraphicsImageRenderer(size: original.size)
         
-        /** NP PROFILING */
+        /**NP PROFILING*/
         let rounded     = renderer.image { ctx in
             ctx.cgContext.setShadow(offset: CGSize.zero, blur: 200, color: UIColor.black.cgColor)
             ctx.cgContext.fillEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
@@ -94,7 +96,7 @@ class SelectionViewController: UITableViewController
 //		cell.imageView?.layer.shadowRadius = 10
 //		cell.imageView?.layer.shadowOffset = CGSize.zero
 
-		// each image stores how often it's been tapped
+		/**each image stores how often it's been tapped**/
 		let defaults = UserDefaults.standard
 		cell.textLabel?.text = "\(defaults.integer(forKey: currentImage))"
 
@@ -108,10 +110,10 @@ class SelectionViewController: UITableViewController
 		vc.image = items[indexPath.row % items.count]
 		vc.owner = self
 
-		// mark us as not needing a counter reload when we return
+		/**mark us as not needing a counter reload when we return**/
 		dirty = false
 
-		// add to our view controller cache and show
+		/**add to our view controller cache and show**/
 		viewControllers.append(vc)
 		navigationController!.pushViewController(vc, animated: true)
 	}
