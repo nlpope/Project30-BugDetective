@@ -8,23 +8,25 @@
 
 import UIKit
 
-class ImageViewController: UIViewController {
+class ImageViewController: UIViewController
+{
 	var owner: SelectionViewController!
 	var image: String!
 	var animTimer: Timer!
 
 	var imageView: UIImageView!
 
-	override func loadView() {
+	override func loadView()
+    {
 		super.loadView()
 		
-		view.backgroundColor = UIColor.black
+		view.backgroundColor    = UIColor.black
 
 		// create an image view that fills the screen
-		imageView = UIImageView()
-		imageView.contentMode = .scaleAspectFit
+		imageView               = UIImageView()
+		imageView.contentMode   = .scaleAspectFit
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.alpha = 0
+		imageView.alpha         = 0
 
 		view.addSubview(imageView)
 
@@ -45,7 +47,9 @@ class ImageViewController: UIViewController {
 		}
 	}
 
-    override func viewDidLoad() {
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
 		title = image.replacingOccurrences(of: "-Large.jpg", with: "")
@@ -63,7 +67,9 @@ class ImageViewController: UIViewController {
 		imageView.image = rounded
     }
 
-	override func viewDidAppear(_ animated: Bool) {
+    
+	override func viewDidAppear(_ animated: Bool)
+    {
 		super.viewDidAppear(animated)
 
 		imageView.alpha = 0
@@ -73,7 +79,9 @@ class ImageViewController: UIViewController {
 		}
 	}
 
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
 		let defaults = UserDefaults.standard
 		var currentVal = defaults.integer(forKey: image)
 		currentVal += 1

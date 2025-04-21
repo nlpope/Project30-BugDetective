@@ -53,7 +53,6 @@
 		40998FA82DB688E800B311E7 /* TLDR-Large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40998F712DB688E800B311E7 /* TLDR-Large.jpg */; };
 		40998FA92DB688E800B311E7 /* BRB-Thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40998F4A2DB688E800B311E7 /* BRB-Thumb.jpg */; };
 		40998FAA2DB688E800B311E7 /* OMG-Large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40998F652DB688E800B311E7 /* OMG-Large.jpg */; };
-		40998FAB2DB688E800B311E7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40998F7A2DB688E800B311E7 /* Info.plist */; };
 		40998FAC2DB688E800B311E7 /* LOL-Thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40998F622DB688E800B311E7 /* LOL-Thumb.jpg */; };
 		40998FAD2DB688E800B311E7 /* IDK-Large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40998F512DB688E800B311E7 /* IDK-Large.jpg */; };
 		40998FAE2DB688E800B311E7 /* IMHO-Thumb@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40998F582DB688E800B311E7 /* IMHO-Thumb@3x.jpg */; };
@@ -435,7 +434,6 @@
 				40998FA82DB688E800B311E7 /* TLDR-Large.jpg in Resources */,
 				40998FA92DB688E800B311E7 /* BRB-Thumb.jpg in Resources */,
 				40998FAA2DB688E800B311E7 /* OMG-Large.jpg in Resources */,
-				40998FAB2DB688E800B311E7 /* Info.plist in Resources */,
 				40998FAC2DB688E800B311E7 /* LOL-Thumb.jpg in Resources */,
 				40998FAD2DB688E800B311E7 /* IDK-Large.jpg in Resources */,
 				40998FAE2DB688E800B311E7 /* IMHO-Thumb@3x.jpg in Resources */,
@@ -523,10 +521,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M9MT23QW7V;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Project30-BugDetective/Info.plist";
+				INFOPLIST_FILE = Project30/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -551,10 +548,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M9MT23QW7V;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Project30-BugDetective/Info.plist";
+				INFOPLIST_FILE = Project30/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

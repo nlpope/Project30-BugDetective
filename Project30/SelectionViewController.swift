@@ -8,12 +8,14 @@
 
 import UIKit
 
-class SelectionViewController: UITableViewController {
-	var items = [String]() // this is the array that will store the filenames to load
+class SelectionViewController: UITableViewController
+{
+	var items           = [String]() // this is the array that will store the filenames to load
 	var viewControllers = [UIViewController]() // create a cache of the detail view controllers for faster loading
-	var dirty = false
+	var dirty           = false
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
 		title = "Reactionist"
@@ -33,29 +35,26 @@ class SelectionViewController: UITableViewController {
 		}
     }
 
-	override func viewWillAppear(_ animated: Bool) {
+    
+	override func viewWillAppear(_ animated: Bool)
+    {
 		super.viewWillAppear(animated)
-
-		if dirty {
-			// we've been marked as needing a counter reload, so reload the whole table
-			tableView.reloadData()
-		}
+        // we've been marked as needing a counter reload, so reload the whole table
+		if dirty { tableView.reloadData() }
 	}
 
     // MARK: - Table view data source
 
-	override func numberOfSections(in tableView: UITableView) -> Int {
-        // Return the number of sections.
-        return 1
-    }
+	override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Return the number of rows in the section.
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return items.count * 10
     }
 
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 
 		// find the image for this cell, and load its thumbnail
@@ -69,7 +68,6 @@ class SelectionViewController: UITableViewController {
         /** NP PROFILING */
         let rounded     = renderer.image { ctx in
             ctx.cgContext.setShadow(offset: CGSize.zero, blur: 200, color: UIColor.black.cgColor)
-            
             ctx.cgContext.fillEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
             ctx.cgContext.setShadow(offset: CGSize.zero, blur: 0, color: nil)
             
@@ -78,7 +76,9 @@ class SelectionViewController: UITableViewController {
             
             original.draw(at: CGPoint.zero)
         }
-
+        
+        cell.imageView?.image               = rounded
+        
 //		let rounded = renderer.image { ctx in
 //			ctx.cgContext.addEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
 //			ctx.cgContext.clip()
@@ -101,7 +101,9 @@ class SelectionViewController: UITableViewController {
 		return cell
     }
 
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
 		let vc = ImageViewController()
 		vc.image = items[indexPath.row % items.count]
 		vc.owner = self
