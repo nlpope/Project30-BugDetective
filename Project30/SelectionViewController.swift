@@ -19,22 +19,8 @@ class SelectionViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
-		title = "Reactionist"
-
-		tableView.rowHeight = 90
-		tableView.separatorStyle = .none
-
-		/**load all the JPEGs into our array**/
-		let fm = FileManager.default
-
-		if let tempItems = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
-			for item in tempItems {
-				if item.range(of: "Large") != nil {
-					items.append(item)
-				}
-			}
-		}
+        setUpViews()
+        loadJPEGsIntoArray()
     }
 
     
@@ -44,6 +30,29 @@ class SelectionViewController: UITableViewController
         /**we've been marked as needing a counter reload, so reload the whole table**/
 		if dirty { tableView.reloadData() }
 	}
+    
+    
+    func setUpViews()
+    {
+        title = "Reactionist"
+
+        tableView.rowHeight = 90
+        tableView.separatorStyle = .none
+    }
+    
+    
+    func loadJPEGsIntoArray()
+    {
+        /**load all the JPEGs into our array**/
+        let fm = FileManager.default
+
+        if let tempItems = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
+            for item in tempItems {
+                if item.range(of: "Large") != nil { items.append(item) }
+            }
+        }
+
+    }
 
     // MARK: - Table view data source
 
@@ -106,12 +115,12 @@ class SelectionViewController: UITableViewController
     
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-		let vc = ImageViewController()
-		vc.image = items[indexPath.row % items.count]
-		vc.owner = self
+		let vc      = ImageViewController()
+		vc.image    = items[indexPath.row % items.count]
+		vc.owner    = self
 
 		/**mark us as not needing a counter reload when we return**/
-		dirty = false
+		dirty       = false
 
 		/**add to our view controller cache and show**/
 		viewControllers.append(vc)
