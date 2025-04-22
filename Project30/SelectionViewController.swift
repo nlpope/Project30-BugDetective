@@ -65,7 +65,8 @@ class SelectionViewController: UITableViewController
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-		let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        if cell == nil { cell = UITableViewCell(style: .default, reuseIdentifier: "Cell") }
 
 		/**find the image for this cell, and load its thumbnail**/
 		let currentImage    = items[indexPath.row % items.count]
@@ -90,10 +91,12 @@ class SelectionViewController: UITableViewController
         
         /**give the imgs a  shadow**/
         #warning("note how this resembles the 1st model as it sits outside of the ctx")
+        #warning("once it's fixed, test in the sim debugger to see how yellow over shadow is gone after you draw the shadow this way, compare to old code & how yellow overlaps the shadow")
         cell.imageView?.layer.shadowColor   = UIColor.black.cgColor
         cell.imageView?.layer.shadowOpacity = 1
         cell.imageView?.layer.shadowRadius  = 10
         cell.imageView?.layer.shadowOffset  = CGSize.zero
+        cell.imageView?.layer.shadowPath    = UIBezierPath(ovalIn: renderRect).cgPath
         
 
 		/**each image stores how often it's been tapped**/
