@@ -19,7 +19,7 @@ class SelectionViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        setUpViews()
+        setTableView()
         loadJPEGsIntoArray()
     }
 
@@ -32,21 +32,20 @@ class SelectionViewController: UITableViewController
 	}
     
     
-    func setUpViews()
+    func setTableView()
     {
-        title = "Reactionist"
-
-        tableView.rowHeight = 90
-        tableView.separatorStyle = .none
+        title                       = "Reactionist"
+        tableView.rowHeight         = 90
+        tableView.separatorStyle    = .none
     }
     
     
     func loadJPEGsIntoArray()
     {
         /**load all the JPEGs into our array**/
-        let fm = FileManager.default
+        let fm              = FileManager.default
 
-        if let tempItems = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
+        if let tempItems    = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
             for item in tempItems {
                 if item.range(of: "Large") != nil { items.append(item) }
             }
@@ -69,44 +68,36 @@ class SelectionViewController: UITableViewController
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 
 		/**find the image for this cell, and load its thumbnail**/
-		let currentImage = items[indexPath.row % items.count]
-		let imageRootName = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
-		let path = Bundle.main.path(forResource: imageRootName, ofType: nil)!
-		let original = UIImage(contentsOfFile: path)!
-
-		let renderer = UIGraphicsImageRenderer(size: original.size)
+		let currentImage    = items[indexPath.row % items.count]
+		let imageRootName   = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
+		let path            = Bundle.main.path(forResource: imageRootName, ofType: nil)!
+		let original        = UIImage(contentsOfFile: path)!
         
-        /**NP PROFILING*/
-        let rounded     = renderer.image { ctx in
-            ctx.cgContext.setShadow(offset: CGSize.zero, blur: 200, color: UIColor.black.cgColor)
-            ctx.cgContext.fillEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
-            ctx.cgContext.setShadow(offset: CGSize.zero, blur: 0, color: nil)
-            
-            ctx.cgContext.addEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
+        /**now I'm making the render rectangle the size of the tableView row height so img sizes don't conflict w said height**/
+        let renderRect      = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
+        let renderer        = UIGraphicsImageRenderer(size: renderRect.size)
+        
+        let rounded         = renderer.image { ctx in
+            #warning("why does removing .addEllipse result in clip: empty path soft error?")
+            ctx.cgContext.addEllipse(in: renderRect)
+            #warning("not too sure what .clip is doing, & why it only works w .addEllipse")
+            /**hint: the ellipse doesn't get read as a circle until we add .clip - all I see are squares until .clip is involved**/
             ctx.cgContext.clip()
-            
-            original.draw(at: CGPoint.zero)
+            original.draw(in: renderRect)
         }
         
         cell.imageView?.image               = rounded
         
-//		let rounded = renderer.image { ctx in
-//			ctx.cgContext.addEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
-//			ctx.cgContext.clip()
-//
-//			original.draw(at: CGPoint.zero)
-//		}
-//
-//		cell.imageView?.image = rounded
-//
-//		// give the images a nice shadow to make them look a bit more dramatic
-//		cell.imageView?.layer.shadowColor = UIColor.black.cgColor
-//		cell.imageView?.layer.shadowOpacity = 1
-//		cell.imageView?.layer.shadowRadius = 10
-//		cell.imageView?.layer.shadowOffset = CGSize.zero
+        /**give the imgs a  shadow**/
+        #warning("note how this resembles the 1st model as it sits outside of the ctx")
+        cell.imageView?.layer.shadowColor   = UIColor.black.cgColor
+        cell.imageView?.layer.shadowOpacity = 1
+        cell.imageView?.layer.shadowRadius  = 10
+        cell.imageView?.layer.shadowOffset  = CGSize.zero
+        
 
 		/**each image stores how often it's been tapped**/
-		let defaults = UserDefaults.standard
+		let defaults        = UserDefaults.standard
 		cell.textLabel?.text = "\(defaults.integer(forKey: currentImage))"
 
 		return cell

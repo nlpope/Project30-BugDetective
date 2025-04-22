@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4027052B2DB7E9B100FD731E /* scraps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4027052A2DB7E9B100FD731E /* scraps.swift */; };
 		40998F7D2DB688E800B311E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40998F432DB688E800B311E7 /* AppDelegate.swift */; };
 		40998F7E2DB688E800B311E7 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40998F452DB688E800B311E7 /* ImageViewController.swift */; };
 		40998F7F2DB688E800B311E7 /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40998F442DB688E800B311E7 /* SelectionViewController.swift */; };
@@ -80,6 +81,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4027052A2DB7E9B100FD731E /* scraps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scraps.swift; sourceTree = "<group>"; };
 		40998F0C2DB6884E00B311E7 /* Project30-BugDetective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project30-BugDetective.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		40998F252DB6885400B311E7 /* Project30-BugDetectiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project30-BugDetectiveTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		40998F2F2DB6885400B311E7 /* Project30-BugDetectiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project30-BugDetectiveUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -267,6 +269,7 @@
 				40998F432DB688E800B311E7 /* AppDelegate.swift */,
 				40998F442DB688E800B311E7 /* SelectionViewController.swift */,
 				40998F452DB688E800B311E7 /* ImageViewController.swift */,
+				4027052A2DB7E9B100FD731E /* scraps.swift */,
 				40998F462DB688E800B311E7 /* Images.xcassets */,
 				40998F482DB688E800B311E7 /* LaunchScreen.xib */,
 				40998F7B2DB688E800B311E7 /* Supporting Files */,
@@ -468,6 +471,7 @@
 				40998F7D2DB688E800B311E7 /* AppDelegate.swift in Sources */,
 				40998F7E2DB688E800B311E7 /* ImageViewController.swift in Sources */,
 				40998F7F2DB688E800B311E7 /* SelectionViewController.swift in Sources */,
+				4027052B2DB7E9B100FD731E /* scraps.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
