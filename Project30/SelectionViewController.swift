@@ -12,8 +12,6 @@ class SelectionViewController: UITableViewController
 {
     /**this is the array that will store the filenames to load**/
 	var items           = [String]()
-    /**create a cache of the detail view controllers for faster loading**/
-	var viewControllers = [UIViewController]()
 	var dirty           = false
 
     override func viewDidLoad()
@@ -57,24 +55,25 @@ class SelectionViewController: UITableViewController
 
 	override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return items.count * 10
     }
-
+    
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "Cell")
         if cell == nil { cell = UITableViewCell(style: .default, reuseIdentifier: "Cell") }
 
-		/**find the image for this cell, and load its thumbnail**/
+		/**find the img for this cell, and load its thumbnail**/
 		let currentImage    = items[indexPath.row % items.count]
 		let imageRootName   = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
 		let path            = Bundle.main.path(forResource: imageRootName, ofType: nil)!
 		let original        = UIImage(contentsOfFile: path)!
         
-        /**now I'm making the render rectangle the size of the tableView row height so img sizes don't conflict w said height**/
+        /**making the render rectangle the size of the tableView row height so img sizes don't conflict w said height**/
         let renderRect      = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
         let renderer        = UIGraphicsImageRenderer(size: renderRect.size)
         
@@ -98,7 +97,6 @@ class SelectionViewController: UITableViewController
         cell.imageView?.layer.shadowOffset  = CGSize.zero
         cell.imageView?.layer.shadowPath    = UIBezierPath(ovalIn: renderRect).cgPath
         
-
 		/**each image stores how often it's been tapped**/
 		let defaults        = UserDefaults.standard
 		cell.textLabel?.text = "\(defaults.integer(forKey: currentImage))"
@@ -115,9 +113,6 @@ class SelectionViewController: UITableViewController
 
 		/**mark us as not needing a counter reload when we return**/
 		dirty       = false
-
-		/**add to our view controller cache and show**/
-		viewControllers.append(vc)
 		navigationController!.pushViewController(vc, animated: true)
 	}
 }

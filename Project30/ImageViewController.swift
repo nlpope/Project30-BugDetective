@@ -10,7 +10,7 @@ import UIKit
 
 class ImageViewController: UIViewController
 {
-	var owner: SelectionViewController!
+	weak var owner: SelectionViewController!
 	var image: String!
 	var animTimer: Timer!
 	var imageView: UIImageView!
@@ -38,6 +38,14 @@ class ImageViewController: UIViewController
         setImageViewTransparency()
         animateImageViewTransparency()
 	}
+    
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        super.viewWillDisappear(animated)
+        animTimer.invalidate()
+    }
+    
     
     //-------------------------------------//
     // MARK: ENVIRONMENT SET UP
@@ -70,7 +78,21 @@ class ImageViewController: UIViewController
     #warning("why is this necessary, the img isn't round")
     func drawImageView()
     {
-        let original    = UIImage(named: image)!
+        /**
+         let original    = UIImage(named: image)!
+         
+         UIImage(named:) caches images for reuse later so they don't have to spend time getting
+         called at a later time. However, these images aren't expected to have too many repeat views
+         e.g. the user backing out of the detailVC then directly back into it. So use
+         
+         let original = UIImage(contentsOfFile:)
+         
+         This will not cache the image, but mark the data as PURGEABLE. If the data is purged and needs to be reloaded, the image object loads that data again from the specified path, which takes (insignificantly) longer than reaching for a cached image via the previous method
+         **/
+        
+        let path        = Bundle.main.path(forResource: image, ofType: nil)!
+        
+        let original    = UIImage(contentsOfFile: path)!
 
         let renderer    = UIGraphicsImageRenderer(size: original.size)
 
