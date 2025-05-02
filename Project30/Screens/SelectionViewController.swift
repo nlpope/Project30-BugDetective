@@ -4,7 +4,7 @@
 //
 //  Created by TwoStraws on 20/08/2016.
 //  Copyright (c) 2016 TwoStraws. All rights reserved.
-//
+//  img resizing: https://nshipster.com/image-resizing/
 
 import UIKit
 
@@ -19,6 +19,7 @@ class SelectionViewController: UITableViewController
         super.viewDidLoad()
         setTableView()
         loadJPEGsIntoArray()
+        for item in items { item.resize(for: CGSize(width: CellRows.width, height: CellRows.height)) }
     }
 
     
@@ -33,7 +34,7 @@ class SelectionViewController: UITableViewController
     func setTableView()
     {
         title                       = "Reactionist"
-        tableView.rowHeight         = 90
+        tableView.rowHeight         = CellRows.height
         tableView.separatorStyle    = .none
     }
     
@@ -41,15 +42,19 @@ class SelectionViewController: UITableViewController
     func loadJPEGsIntoArray()
     {
         /**load all the JPEGs into our array**/
-        let fm              = FileManager.default
-        guard let path      = Bundle.main.resourcePath else { print("nil found @ resourcePath"); return }
+        // when loading into array, am i converting them to uiimage?
+        // if not , when am i converting to uiimage?
+        // cause this may need to be a uiimage ext.
+//        let fm              = FileManager.default
+//        guard let path      = Bundle.main.resourcePath else { print("nil found @ resourcePath"); return }
         
-        if let tempItems    = try? fm.contentsOfDirectory(atPath: path) {
+        if let tempItems    = try? FileManager.default.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
             for item in tempItems {
-                if item.range(of: "Large") != nil { items.append(item) }
+                if item.range(of: "Large") != nil {
+                    items.append(item)
+                }
             }
         }
-
     }
 
     // MARK: - Table view data source
@@ -69,13 +74,19 @@ class SelectionViewController: UITableViewController
         if cell == nil { cell = UITableViewCell(style: .default, reuseIdentifier: "Cell") }
 
 		/**find the img for this cell, and load its thumbnail**/
-		let currentImage    = items[indexPath.row % items.count]
-		let imageRootName   = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
-        guard let path      = Bundle.main.path(forResource: imageRootName, ofType: nil) else { return cell }
-        guard let original  = UIImage(contentsOfFile: path) else { return cell }
+//		let currentImage    = items[indexPath.row % items.count]
+//		let imageRootName   = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
+//        guard let path      = Bundle.main.path(forResource: imageRootName, ofType: nil) else { return cell }
         
-        /**making the render rectangle the size of the tableView row height so img sizes don't conflict w said height**/
-        let renderRect      = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
+//        guard let original  = UIImage(contentsOfFile: path) else { return cell }
+        #warning("HERE, HERE IS WHERE YOU WANNA CHANGE THE SIZE OF EACH IMG")
+        guard let originalImage = UIImage(
+            contentsOfFile: Bundle.main.path(forResource: items[indexPath.row % items.count].replacingOccurrences(of: "Large", with: "Thumb"), ofType: nil)!
+        )
+        else { return cell }
+        
+//        /**making the render rectangle the size of the tableView row height so img sizes don't conflict w said height**/
+        let renderRect      = CGRect(origin: .zero, size: CGSize(width: CellRows.width, height: CellRows.height))
         let renderer        = UIGraphicsImageRenderer(size: renderRect.size)
         
         let rounded         = renderer.image { ctx in
@@ -84,7 +95,7 @@ class SelectionViewController: UITableViewController
             #warning("not too sure what .clip is doing, & why it only works w .addEllipse")
             /**hint: the ellipse doesn't get read as a circle until we add .clip - all I see are squares until .clip is involved**/
             ctx.cgContext.clip()
-            original.draw(in: renderRect)
+            originalImage.draw(in: renderRect)
         }
         
         cell.imageView?.image               = rounded
