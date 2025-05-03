@@ -11,22 +11,21 @@ import UIKit
 class SelectionViewController: UITableViewController
 {
     /**this is the array that will store the filenames to load**/
-	var items           = [String]()
+	var items      = [String]()
+    var images     = [UIImage]()
 	var dirty           = false
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
         setTableView()
-        loadJPEGsIntoArray()
-        for item in items { item.resize(for: CGSize(width: CellRows.width, height: CellRows.height)) }
+        loadJPEGsIntoArrays()
     }
 
     
 	override func viewWillAppear(_ animated: Bool)
     {
 		super.viewWillAppear(animated)
-        /**we've been marked as needing a counter reload, so reload the whole table**/
 		if dirty { tableView.reloadData() }
 	}
     
@@ -39,19 +38,17 @@ class SelectionViewController: UITableViewController
     }
     
     
-    func loadJPEGsIntoArray()
+    func loadJPEGsIntoArrays()
     {
-        /**load all the JPEGs into our array**/
-        // when loading into array, am i converting them to uiimage?
-        // if not , when am i converting to uiimage?
-        // cause this may need to be a uiimage ext.
-//        let fm              = FileManager.default
-//        guard let path      = Bundle.main.resourcePath else { print("nil found @ resourcePath"); return }
+        let fm              = FileManager.default
+        guard let path      = Bundle.main.resourcePath else { print("nil found @ resourcePath"); return }
         
-        if let tempItems    = try? FileManager.default.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
+        if let tempItems    = try? fm.contentsOfDirectory(atPath: path) {
             for item in tempItems {
                 if item.range(of: "Large") != nil {
                     items.append(item)
+                    let resizedItem = item.convertToImage(atSize: CGSize(width: 55, height: 55))
+                    images.append(resizedItem!)
                 }
             }
         }
@@ -73,45 +70,22 @@ class SelectionViewController: UITableViewController
         var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "Cell")
         if cell == nil { cell = UITableViewCell(style: .default, reuseIdentifier: "Cell") }
 
-		/**find the img for this cell, and load its thumbnail**/
-//		let currentImage    = items[indexPath.row % items.count]
-//		let imageRootName   = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
-//        guard let path      = Bundle.main.path(forResource: imageRootName, ofType: nil) else { return cell }
+		let currentImage    = items[indexPath.row % items.count]
+        let currentSmallImage   = images[indexPath.row % images.count]
         
-//        guard let original  = UIImage(contentsOfFile: path) else { return cell }
-        #warning("HERE, HERE IS WHERE YOU WANNA CHANGE THE SIZE OF EACH IMG")
-        guard let originalImage = UIImage(
-            contentsOfFile: Bundle.main.path(forResource: items[indexPath.row % items.count].replacingOccurrences(of: "Large", with: "Thumb"), ofType: nil)!
-        )
-        else { return cell }
+        cell.imageView?.image               = images[indexPath.row % images.count]
         
-//        /**making the render rectangle the size of the tableView row height so img sizes don't conflict w said height**/
-        let renderRect      = CGRect(origin: .zero, size: CGSize(width: CellRows.width, height: CellRows.height))
-        let renderer        = UIGraphicsImageRenderer(size: renderRect.size)
-        
-        let rounded         = renderer.image { ctx in
-            #warning("why does removing .addEllipse result in clip: empty path soft error?")
-            ctx.cgContext.addEllipse(in: renderRect)
-            #warning("not too sure what .clip is doing, & why it only works w .addEllipse")
-            /**hint: the ellipse doesn't get read as a circle until we add .clip - all I see are squares until .clip is involved**/
-            ctx.cgContext.clip()
-            originalImage.draw(in: renderRect)
-        }
-        
-        cell.imageView?.image               = rounded
-        
-        /**give the imgs a  shadow**/
-        #warning("note how this resembles the 1st model as it sits outside of the ctx")
-        #warning("once it's fixed, test in the sim debugger to see how yellow over shadow is gone after you draw the shadow this way, compare to old code & how yellow overlaps the shadow")
+        /**give the images a  shadow**/
         cell.imageView?.layer.shadowColor   = UIColor.black.cgColor
         cell.imageView?.layer.shadowOpacity = 1
         cell.imageView?.layer.shadowRadius  = 10
         cell.imageView?.layer.shadowOffset  = CGSize.zero
-        cell.imageView?.layer.shadowPath    = UIBezierPath(ovalIn: renderRect).cgPath
+        //renderrect = cgrect
+//        cell.imageView?.layer.shadowPath    = UIBezierPath(ovalIn: renderRect).cgPath
         
 		/**each image stores how often it's been tapped**/
-		let defaults        = UserDefaults.standard
-		cell.textLabel?.text = "\(defaults.integer(forKey: currentImage))"
+		let defaults            = UserDefaults.standard
+		cell.textLabel?.text    = "\(defaults.integer(forKey: currentImage))"
 
 		return cell
     }
